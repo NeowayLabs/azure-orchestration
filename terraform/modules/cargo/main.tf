@@ -65,12 +65,14 @@ resource "azurerm_subnet" "subnet" {
   network_security_group_id = "${azurerm_network_security_group.nsg.id}"
 }
 
+resource "random_pet" "domain_name_label" {}
+
 resource "azurerm_public_ip" "pubip" {
   name                         = "${var.env}-cargo-public-ip"
   location                     = "${var.location}"
   resource_group_name          = "${azurerm_resource_group.rg.name}"
   public_ip_address_allocation = "dynamic"
-  domain_name_label            = "${var.env}-cargo"
+  domain_name_label            = "${var.env}-${random_pet.domain_name_label.id}-cargo"
 }
 
 resource "azurerm_lb" "lb" {
