@@ -8,7 +8,7 @@ cargo_platform_fault_domain_count = 3
 cargo_platform_update_domain_count = 5
 cargo_virtual_machine_admin_password = ""
 cargo_virtual_machine_admin_username = "core"
-cargo_virtual_machine_count = 3
+cargo_virtual_machine_count = 1
 cargo_virtual_machine_size = "Standard_A1"
 
 trusted_ip = "0.0.0.0/0"
