@@ -3,7 +3,6 @@
 env ?= dev
 
 ENV_DIR = providers/azure/${env}
-PLAN_FILE = terraform.tfplan
 VAR_FILE = terraform.tfvars
 
 .PHONY: setup
@@ -13,19 +12,13 @@ setup:
 		terraform init
 	@echo "Done!"
 
-.PHONY: terraform-plan
-terraform-plan:
-	cd ${ENV_DIR}; \
-		terraform plan \
-			-var-file=${VAR_FILE} \
-			-out=${PLAN_FILE} \
-			.
-
 .PHONY: terraform-apply
 terraform-apply:
 	cd ${ENV_DIR}; \
-		terraform apply ${PLAN_FILE}; \
-			rm -f ${PLAN_FILE}
+		terraform apply \
+			-var-file=${VAR_FILE} \
+			-auto-approve=false \
+			.
 
 .PHONY: terraform-destroy
 terraform-destroy:
