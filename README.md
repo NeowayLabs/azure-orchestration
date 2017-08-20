@@ -2,11 +2,11 @@
 
 ## Prerequisites
 
- 1. [Terraform](https://www.terraform.io/intro/getting-started/install.html).
+ 1. [Azure CLI](https://docs.microsoft.com/cs-cz/cli/azure/install-azure-cli)
 
- 1. [Azure CLI](https://docs.microsoft.com/cs-cz/cli/azure/install-azure-cli).
+ 1. [Docker](https://docs.docker.com/engine/installation/)
 
- 1. [Python](https://www.python.org/downloads) with [pip](https://pip.pypa.io/en/stable/installing).
+ 1. [Terraform](https://www.terraform.io/intro/getting-started/install.html)
 
 ### Credentials
 
@@ -68,16 +68,10 @@ Configure the `dev` environment:
     $ cd ansible
     ```
 
- 1. Setup ansible requirements with virtualenv.
+ 1. Setup ansible requirements with docker.
 
     ```console
-    $ make setup
-    ```
-
- 1. Then activate virtualenv.
-
-    ```console
-    $ source .venv-ansible/bin/activate
+    $ make docker-build
     ```
 
  1. Apply ansible playbook to cargo virtual machines.
