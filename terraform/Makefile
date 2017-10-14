@@ -12,6 +12,14 @@ setup:
 		terraform init
 	@echo "Done!"
 
+.PHONY: terraform-plan
+terraform-plan:
+	cd ${ENV_DIR}; \
+		terraform plan \
+			-var-file=${VAR_FILE} \
+			$(TF_ARGS) \
+			.
+
 .PHONY: terraform-apply
 terraform-apply:
 	cd ${ENV_DIR}; \
