@@ -1,5 +1,9 @@
+terraform {
+  required_version = ">= 0.11.2"
+}
+
 provider "azurerm" {
-  version = "~> 0.1"
+  version = "~> 1.0.1"
 }
 
 module "network" {
