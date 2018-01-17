@@ -32,3 +32,7 @@ module "cargo" {
   virtual_network_name                = "${module.network.name}"
   virtual_network_resource_group_name = "${module.network.resource_group_name}"
 }
+
+output "cargo_load_balancer_public_ip_address" {
+  value = "${module.cargo.load_balancer_public_ip_address}"
+}
