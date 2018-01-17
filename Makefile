@@ -3,7 +3,7 @@
 inventory ?= environments/$(env)
 provider-dir = providers/azure/$(env)
 tags ?= all
-user ?= (shell whoami)
+user ?= core
 var-file = terraform.tfvars
 
 UNAME_S := $(shell uname -s)
@@ -64,6 +64,18 @@ ansible-refresh-cache: guard-env
 		-w /azure-orchestration/ansible/environments/$(env) \
 		-it azure-orchestration \
 		python azure_rm.py --refresh-cache --pretty
+
+.PHONY: ansible-remote-shell
+ansible-remote-shell: guard-hosts
+	$(docker_run) \
+		ansible $(hosts) \
+		-i $(inventory) \
+		-m shell \
+		-b \
+		-u $(user) \
+		-e 'ansible_python_interpreter=/home/$(user)/bin/python' \
+		-a "$(shell)" \
+		$(ansible-args)
 
 .PHONY: bash
 bash:
