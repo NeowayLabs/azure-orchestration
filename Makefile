@@ -1,5 +1,6 @@
 .DEFAULT_GOAL := setup
 
+env ?= dev
 inventory ?= environments/$(env)
 provider-dir = providers/azure/$(env)
 tags ?= all
