@@ -1,5 +1,9 @@
+terraform {
+  required_version = ">= 0.11.2"
+}
+
 provider "azurerm" {
-  version = "~> 0.1"
+  version = "~> 1.0.1"
 }
 
 module "network" {
@@ -27,4 +31,8 @@ module "cargo" {
   virtual_machine_size                = "${var.cargo_virtual_machine_size}"
   virtual_network_name                = "${module.network.name}"
   virtual_network_resource_group_name = "${module.network.resource_group_name}"
+}
+
+output "cargo_fqdn" {
+  value = "${module.cargo.fqdn}"
 }

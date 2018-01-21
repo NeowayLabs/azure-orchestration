@@ -2,21 +2,19 @@
 
 ## Prerequisites
 
- 1. [Azure CLI](https://docs.microsoft.com/cs-cz/cli/azure/install-azure-cli)
-
  1. [Docker](https://docs.docker.com/engine/installation/)
-
- 1. [Terraform](https://www.terraform.io/intro/getting-started/install.html)
 
 ### Credentials
 
-Ansible and Terraform don't agree in which key to use to specify a value of a credential. Example: Ansible looks at `AZURE_SECRET` and Terraform looks at `ARM_CLIENT_SECRET` to get the secret of a service principal.
+[Create Azure Service Principal](https://www.terraform.io/docs/providers/azurerm/authenticating_via_service_principal.html) then export the credentials.
 
-There are other ways to expose credentials to both tools. I recommend that you use environment variables but feel free to pick whatever you want.
-
- 1. Terraform [instructions](https://www.terraform.io/docs/providers/azurerm/index.html#creating-credentials) will help with the creation of Azure credentials and so exporting them to your environment.
-
- 1. Once you have created the credentials follow Ansible [instructions](https://docs.ansible.com/ansible/2.3/guide_azure.html) to export them to your environment.
+```bash
+$ export AZURE_CLIENT_ID=YOUR_AZURE_CLIENT_ID
+$ export AZURE_CLIENT_SECRET=YOUR_AZURE_CLIENT_SECRET
+$ export AZURE_SERVICE_PRINCIPAL=YOUR_AZURE_SERVICE_PRINCIPAL
+$ export AZURE_SUBSCRIPTION_ID=YOUR_AZURE_SUBSCRIPTION_ID
+$ export AZURE_TENANT_ID=YOUR_AZURE_TENANT_ID
+```
 
 ## Getting Started
 
@@ -30,52 +28,33 @@ This project orchestrates multiple environments. By default, commands will rely 
 
 - `dev` (default)
 - `stg`
-- `prd`
 
 
 ### Provisioning
 
 __Important note:__ Each terraform.tfvars for an enviroment has a variable `trusted_ip`. 
-It determines an IP address to allow inbound ssh on a virtual machine. Make sure you set it to a secure ip address. (NOT GOOD IDEA) Or leave it open to the internet (:boom:).
+It determines an IP address to allow inbound ssh into virtual machines. Make sure you set it to a secure ip address.
 
 Create the `dev` environment:
 
- 1. Step into `terraform` directory.
+ 1. For the very first time and every new module you must initialize the Terraform.
 
     ```console
-    $ cd terraform
+    $ make terraform-init env=dev
     ```
 
- 1. Generate an execution plan for Terraform and make sure you acknowledge the execution plan before you apply the changes.
+ 1. Apply Terraform to create the infrastructure. Make sure you acknowledge the execution plan before you apply the changes.
 
     ```console
-    $ make terraform-plan env=dev
-    ```
-
- 1. Apply Terraform to create the infrastructure.
-
-    ```console
-    $ make terraform-apply
+    $ make terraform-apply env=dev
     ```
 
 ### Configuring
 
 Configure the `dev` environment:
 
- 1. Step into `ansible` directory.
+ 1. Run ansible playbook to cargo virtual machines.
 
     ```console
-    $ cd ansible
-    ```
-
- 1. Setup ansible requirements with docker.
-
-    ```console
-    $ make docker-build
-    ```
-
- 1. Apply ansible playbook to cargo virtual machines.
-
-    ```console
-    $ make cargo
+    $ make ansible-playbook env=dev playbook=cargo
     ```
